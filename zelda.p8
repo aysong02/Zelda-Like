@@ -19,7 +19,7 @@ end
 
 function _draw()
 	cls()
-	spr(player.orientation, player.x, player.y)
+	spr(player.orientation, player.x, player.y, 2, 2)
 end
 
 function _update60()
