@@ -9,14 +9,14 @@ function _init()
     y = 10,
     ox=0,
     oy=0,
-    w = 16,
-    h = 16,
+    w = 15,
+    h = 15,
     orientation = 0
   }
   -- orientation is 0,2,4,6
   -- left, right, up, down
-
-  speed = 40 -- pixels/sec  
+  dx, dy = 0, 0
+  speed = 80 -- pixels/sec  
   dt = 0
   lastframe = t()
 end
@@ -34,35 +34,25 @@ function _update60()
 	input() 
 end
 
-function collidex(distance)
-  collide = false
-  if(distance >0) then
-    for i=player.x,player.x+player.w do
-      if(fget(mget(i/8,player.y/8),7)) then
-        collide = true
-      end
-    end
-  else
-    for i=player.x-player.w,player.x do
-      if(fget(mget(i/8,player.y/8),7)) then
-        collide = true
-      end
+function hit(x,y,w,h)
+  collide=false
+  for i=x,x+w,w do
+    if (fget(mget(i/8,y/8))>0) or
+         (fget(mget(i/8,(y+h)/8))>0) then
+          collide=true
     end
   end
-end
-
-function collidey(start,distance)
-
-  if(distance >0) then
-    for i=start,start+distance do
-      return fget(mget(player.x/8,i/8),7)
-    end
-  else
-    for i=start+distance,start do
-      return fget(mget(player.x/8,i/8),7)
+  
+  for i=y,y+h,h do
+    if (fget(mget(x/8,i/8))>0) or
+         (fget(mget((x+w)/8,i/8))>0) then
+          collide=true
     end
   end
+  
+  return collide
 end
+
 
 function input()
   local dx, dy = 0,0
@@ -80,13 +70,15 @@ function input()
     player.orientation = 6
   end
 
-  if not collidex(dx) then
-    player.x+=dx
+  if hit(player.x+dx,player.y,player.w,player.h) then
+    dx = 0
   end
-  
-  if not collidey(player.y,dy) then
-    player.y+=dy
+  if hit(player.x,player.y+dy,player.w,player.h) then
+    dy = 0
   end
+
+  player.x += dx
+  player.y += dy
 end
 
 __gfx__
