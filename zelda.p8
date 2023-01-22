@@ -7,7 +7,8 @@ function _init()
   player = {
     x = 10,
     y = 10,
-    ox=0,
+    --offset for sprite from top left
+    ox=0, 
     oy=0,
     w = 15,
     h = 15,
@@ -34,16 +35,19 @@ function _update60()
 	input() 
 end
 
+--Code to check for collisions on all sides of the sprite
 function hit(x,y,w,h)
   collide=false
-  for i=x,x+w,w do
+  for i=x,x+w do
+    --Check both the top and the bottom 
     if (fget(mget(i/8,y/8))>0) or
          (fget(mget(i/8,(y+h)/8))>0) then
           collide=true
     end
   end
   
-  for i=y,y+h,h do
+  for i=y,y+h do
+    --Check both the left and the right 
     if (fget(mget(x/8,i/8))>0) or
          (fget(mget((x+w)/8,i/8))>0) then
           collide=true
