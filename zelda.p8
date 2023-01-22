@@ -8,10 +8,20 @@ function _init()
     x = 20,
     y = 20,
     orientation = 0
-  }
   -- orientation is 0,2,4,6
   -- left, right, up, down
+  }
 
+  -- initailize spikes
+  spikes = {}
+  spikeCount = 0
+  plantSpikes(70,70)
+  plantSpikes(90,90)
+
+  gems = {}
+  gemCount = 0
+  plantGem(30,30)
+  plantGem(50,50)
   speed = 40 -- pixels/sec
   dt = 0
   lastframe = t()
@@ -20,6 +30,9 @@ end
 function _draw()
 	cls()
 	spr(player.orientation, player.x, player.y, 2, 2)
+  drawSpikes()
+  print(#gems)
+  drawGem()
 end
 
 function _update60()
@@ -27,6 +40,7 @@ function _update60()
   lastframe = t()
  
 	input() 
+  updateSpikes()
 end
 
 function input()
@@ -45,6 +59,54 @@ function input()
   end
 
 end
+
+function drawSpikes()
+ for i=1,#spikes do
+  spr(spikes[i].frame, spikes[i].x, spikes[i].y)
+ end
+end
+
+function plantSpikes(x,y)
+  local seed = {
+    x=x,
+    y=x,
+    frame=0
+   }
+  spikeCount += 1
+  spikes[spikeCount] = seed
+end
+
+function updateSpikes()
+ for i=1,#spikes do
+  local stage = flr(t() % 4)
+   spikes[i].frame = stage
+ end
+end
+
+function drawGem()
+ for i=1,#gems do
+  spr(20, gems[i].x, gems[i].y)
+ end
+end
+
+function plantGem(x,y)
+  local seed = {
+    x=x,
+    y=x,
+    frame=0
+   }
+  gemCount += 1
+  gems[gemCount] = seed
+end
+
+function updateGem()
+-- TODO
+--  for i=1,#gems do
+--   local stage = flr(t() % 4)
+--    spikes[i].frame = stage
+--  end
+end
+
 __gfx__
 777777777777777788888888888888889999999999999999aaaaaaaaaaaaaaaa0000000000000000000000000000000000000000000000000000000000000000
 777777777777777788888888888888889999999999999999aaaaaaaaaaaaaaaa0000000000000000000000000000000000000000000000000000000000000000
