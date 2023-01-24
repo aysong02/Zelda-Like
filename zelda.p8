@@ -31,7 +31,7 @@ __lua__
     plant_gem(50,50)
 
     -- variables for movement
-    speed = 40 -- pixels/sec
+    speed = 55 -- pixels/sec
     dx, dy = 0, 0
     dt = 0
     lastframe = t()
@@ -39,6 +39,7 @@ __lua__
 
   function _draw()
     cls()
+    camera(player.x - 10, player.y - 10)
     map()
     spr(player.orientation, player.x, player.y, 2, 2)
     draw_spikes()
