@@ -52,7 +52,7 @@ __lua__
     spr(player.orientation, player.x, player.y, 2, 2)
     draw_spikes()
     draw_gem()
-    print(test, 0, 120, 12)
+    print(test, mapp.x + 2, mapp.y + 120, 12)
   end
 
   function _update60()
@@ -186,6 +186,7 @@ __lua__
   end
 
   function update_spikes()
+  test = false
     for i=1,#spikes do
       local sprite_offset = 1
       local frame_time = 2
@@ -193,9 +194,7 @@ __lua__
       local stage = flr(t() / frame_time % 2)
       spikes[i].frame = stage + sprite_offset
       if (stage == 1) then
-        test = hit_trap(spikes[i].x, spikes[i].y)
-      else
-        test = false
+        test = test or hit_trap(spikes[i].x, spikes[i].y)
       end
     end
   end
