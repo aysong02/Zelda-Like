@@ -42,6 +42,7 @@ __lua__
     dx, dy = 0, 0
     dt = 0
     lastframe = t()
+    test = "test"
   end
 
   function _draw()
@@ -51,7 +52,7 @@ __lua__
     spr(player.orientation, player.x, player.y, 2, 2)
     draw_spikes()
     draw_gem()
-    print("for debugging", 0, 120, 12)
+    print(test, 0, 120, 12)
   end
 
   function _update60()
@@ -118,6 +119,22 @@ __lua__
     
     return collide
   end
+  
+  function hit_trap(x,y)
+  --x,y for trap and uses player object
+    collide=false
+    for i=x,x+8 do
+      for j=y,y+8 do
+        if i >= player.x and i <= player.x + player.w and
+        j >= player.y and j <= player.y + player.h then
+          collide = true
+        end
+      end
+    end
+    
+    
+    return collide
+  end
 -->8
 --code for gems
   function draw_gem()
@@ -169,10 +186,18 @@ __lua__
   end
 
   function update_spikes()
-  for i=1,#spikes do
-    local stage = flr(t() % 4)
-    spikes[i].frame = stage
-  end
+    for i=1,#spikes do
+      local sprite_offset = 1
+      local frame_time = 2
+      -- set stage
+      local stage = flr(t() / frame_time % 2)
+      spikes[i].frame = stage + sprite_offset
+      if (stage == 1) then
+        test = hit_trap(spikes[i].x, spikes[i].y)
+      else
+        test = false
+      end
+    end
   end
 
 __gfx__
