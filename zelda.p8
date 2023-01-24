@@ -22,13 +22,13 @@ __lua__
 
     -- initailize spikes and gems
     spikes = {}
-    spikeCount = 0
-    plantSpikes(70,70)
-    plantSpikes(90,90)
+    spike_count = 0
+    plant_spikes(70,70)
+    plant_spikes(90,90)
     gems = {}
     gemCount = 0
-    plantGem(30,30)
-    plantGem(50,50)
+    plant_gem(30,30)
+    plant_gem(50,50)
 
     -- variables for movement
     speed = 40 -- pixels/sec
@@ -41,8 +41,8 @@ __lua__
     cls()
     map()
     spr(player.orientation, player.x, player.y, 2, 2)
-    drawSpikes()
-    drawGem()
+    draw_spikes()
+    draw_gem()
     print("for debugging", 0, 120, 12)
   end
 
@@ -51,7 +51,7 @@ __lua__
     lastframe = t()
   
     input() 
-    updateSpikes()
+    update_spikes()
   end
 
 
@@ -110,13 +110,13 @@ __lua__
   end
 -->8
 --code for gems
-  function drawGem()
+  function draw_gem()
   for i=1,#gems do
     spr(20, gems[i].x, gems[i].y)
   end
   end
 
-  function plantGem(x,y)
+  function plant_gem(x,y)
     local seed = {
       x=x,
       y=x,
@@ -126,7 +126,7 @@ __lua__
     gems[gemCount] = seed
   end
 
-  function updateGem()
+  function update_gem()
   -- TODO
   --  for i=1,#gems do
   --   local stage = flr(t() % 4)
@@ -135,23 +135,23 @@ __lua__
   end
 -->8
 --code for spikes
-  function drawSpikes()
+  function draw_spikes()
   for i=1,#spikes do
     spr(spikes[i].frame, spikes[i].x, spikes[i].y)
   end
   end
 
-  function plantSpikes(x,y)
+  function plant_spikes(x,y)
     local seed = {
       x=x,
       y=x,
       frame=0
     }
-    spikeCount += 1
-    spikes[spikeCount] = seed
+    spike_count += 1
+    spikes[spike_count] = seed
   end
 
-  function updateSpikes()
+  function update_spikes()
   for i=1,#spikes do
     local stage = flr(t() % 4)
     spikes[i].frame = stage
