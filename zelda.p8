@@ -194,7 +194,7 @@ __lua__
       -- set stage
       local stage = flr(t() / frame_time % 3)*2
       spikes[i].frame = stage + sprite_offset
-      if (stage == 1) then
+      if (stage == 4) then
         test = test or hit_trap(spikes[i].x, spikes[i].y)
       end
     end
