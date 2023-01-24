@@ -20,6 +20,13 @@ __lua__
     -- left, right, up, down
     }
 
+    mapp = {
+      x = 0,
+      y = 0,
+      width = 128,
+      hight = 128
+    }
+
     -- initailize spikes and gems
     spikes = {}
     spike_count = 0
@@ -39,7 +46,7 @@ __lua__
 
   function _draw()
     cls()
-    camera(player.x - 10, player.y - 10)
+    camera(mapp.x, mapp.y)
     map()
     spr(player.orientation, player.x, player.y, 2, 2)
     draw_spikes()
@@ -86,6 +93,8 @@ __lua__
 
     player.x += dx
     player.y += dy
+    mapp.x += dx
+    mapp.y += dy
   end
   --code for wall collisions
   --Checks for collisions on all sides of the sprite
@@ -137,9 +146,16 @@ __lua__
 -->8
 --code for spikes
   function draw_spikes()
-  for i=1,#spikes do
-    spr(spikes[i].frame, spikes[i].x, spikes[i].y)
-  end
+    for i=1,#spikes do
+      if(
+        spikes[i].x >= mapp.x - 10
+        and spikes[i].x <= (mapp.x + mapp.width + 10) 
+        and spikes[i].y >= mapp.y - 10
+        and spikes[i].y <= (mapp.y + mapp.hight + 10)
+        ) then
+       spr(spikes[i].frame, spikes[i].x, spikes[i].y)
+      end
+    end
   end
 
   function plant_spikes(x,y)
