@@ -20,31 +20,39 @@ __lua__
     -- left, right, up, down
     }
 
+    mapp = {
+      x = 0,
+      y = 0,
+      width = 128,
+      hight = 128
+    }
+
     -- initailize spikes and gems
     spikes = {}
-    spikeCount = 0
-    plantSpikes(70,70)
-    plantSpikes(90,90)
+    spike_count = 0
+    plant_spikes(70,70)
+    plant_spikes(90,90)
     gems = {}
     gemCount = 0
-    plantGem(30,30)
-    plantGem(50,50)
+    plant_gem(30,30)
+    plant_gem(50,50)
 
     -- variables for movement
-    speed = 40 -- pixels/sec
+    speed = 55 -- pixels/sec
     dx, dy = 0, 0
     dt = 0
     lastframe = t()
+    test = "test"
   end
 
   function _draw()
     cls()
-    camera(player.x -10, player.y -10)
+    camera(mapp.x, mapp.y)
     map()
-    drawSpikes()
-    drawGem()
+    draw_spikes()
+    draw_gem()
     spr(player.orientation, player.x, player.y, 2, 2)
-    print("for debugging", 0, 120, 12)
+    print(test, mapp.x + 2, mapp.y + 120, 12)
   end
 
   function _update60()
@@ -52,7 +60,7 @@ __lua__
     lastframe = t()
   
     input() 
-    updateSpikes()
+    update_spikes()
   end
 
 
@@ -86,6 +94,8 @@ __lua__
 
     player.x += dx
     player.y += dy
+    mapp.x += dx
+    mapp.y += dy
   end
   --code for wall collisions
   --Checks for collisions on all sides of the sprite
@@ -109,15 +119,31 @@ __lua__
     
     return collide
   end
+  
+  function hit_trap(x,y)
+  --x,y for trap and uses player object
+    collide=false
+    for i=x,x+8 do
+      for j=y,y+8 do
+        if i >= player.x and i <= player.x + player.w and
+        j >= player.y and j <= player.y + player.h then
+          collide = true
+        end
+      end
+    end
+    
+    
+    return collide
+  end
 -->8
 --code for gems
-  function drawGem()
+  function draw_gem()
   for i=1,#gems do
     spr(16, gems[i].x, gems[i].y)
   end
   end
 
-  function plantGem(x,y)
+  function plant_gem(x,y)
     local seed = {
       x=x,
       y=x,
@@ -127,7 +153,7 @@ __lua__
     gems[gemCount] = seed
   end
 
-  function updateGem()
+  function update_gem()
   -- TODO
   --  for i=1,#gems do
   --   local stage = flr(t() % 4)
@@ -136,29 +162,41 @@ __lua__
   end
 -->8
 --code for spikes
-  function drawSpikes()
-  for i=1,#spikes do
-    spr(spikes[i].frame, spikes[i].x, spikes[i].y, 2, 2)
-  end
+  function draw_spikes()
+    for i=1,#spikes do
+      if(
+        spikes[i].x >= mapp.x - 10
+        and spikes[i].x <= (mapp.x + mapp.width + 10) 
+        and spikes[i].y >= mapp.y - 10
+        and spikes[i].y <= (mapp.y + mapp.hight + 10)
+        ) then
+       spr(spikes[i].frame, spikes[i].x, spikes[i].y, 2, 2)
+      end
+    end
   end
 
-  function plantSpikes(x,y)
+  function plant_spikes(x,y)
     local seed = {
       x=x,
       y=x,
       frame=0
     }
-    spikeCount += 1
-    spikes[spikeCount] = seed
+    spike_count += 1
+    spikes[spike_count] = seed
   end
 
-  function updateSpikes()
+
+  function update_spikes()
+    test = false
     for i=1,#spikes do
       local sprite_offset = 42
       local frame_time = 2
       -- set stage
       local stage = flr(t() / frame_time % 3)*2
       spikes[i].frame = stage + sprite_offset
+      if (stage == 1) then
+        test = test or hit_trap(spikes[i].x, spikes[i].y)
+      end
     end
   end
 
