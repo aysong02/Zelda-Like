@@ -34,8 +34,9 @@ __lua__
     plant_spikes(90,90)
     gems = {}
     gemCount = 0
-    plant_gem(30,30)
-    plant_gem(50,50)
+    gemScore = 0
+    plant_gem(30,30, 0)
+    plant_gem(50,50, 1)
 
     -- variables for movement
     speed = 55 -- pixels/sec
@@ -53,6 +54,7 @@ __lua__
     draw_gem()
     spr(player.orientation, player.x, player.y, 2, 2)
     print(test, mapp.x + 2, mapp.y + 120, 12)
+    print("gems: "..gemScore, mapp.x + 50, mapp.y + 120, 11)
   end
 
   function _update60()
@@ -61,6 +63,7 @@ __lua__
   
     input() 
     update_spikes()
+    update_gems()
   end
 
 
@@ -120,7 +123,7 @@ __lua__
     return collide
   end
   
-  function hit_trap(x,y)
+  function hit_obj(x,y)
   --x,y for trap and uses player object
     collide=false
     for i=x,x+8 do
@@ -131,34 +134,67 @@ __lua__
         end
       end
     end
-    
-    
     return collide
   end
 -->8
 --code for gems
   function draw_gem()
-  for i=1,#gems do
-    spr(16, gems[i].x, gems[i].y)
-  end
+    for i=1,#gems do
+      if(gems[i].x == -1 or gems[i].y == -1) then
+      
+      elseif(
+          gems[i].x >= mapp.x - 10
+          and gems[i].x <= (mapp.x + mapp.width + 10) 
+          and gems[i].y >= mapp.y - 10
+          and gems[i].y <= (mapp.y + mapp.hight + 10)
+          ) then
+        spr(gems[i].gem_type, gems[i].x, gems[i].y)
+      end
+    end
   end
 
-  function plant_gem(x,y)
+  function plant_gem(x,y, gem_type)
+    local spr_no = 16
+    if (gem_type == 0) then
+      spr_no = 16
+    elseif (gem_type == 1) then
+      spr_no = 21
+    end
     local seed = {
       x=x,
       y=x,
-      frame=0
+      frame=0,
+      gem_type = spr_no
     }
     gemCount += 1
     gems[gemCount] = seed
   end
 
-  function update_gem()
+  -- function collect_gem(x,y)
+  --   test = false
+  --   for i=1,#gems do
+  --     if(gems[i].x == x and gems[i].y == y) then
+  --       gems[i].x = -1
+  --       gems[i].y = -1
+  --       gemScore += 1
+  --     end
+  --   end
+  -- end
+
+  function update_gems()
   -- TODO
-  --  for i=1,#gems do
-  --   local stage = flr(t() % 4)
-  --    spikes[i].frame = stage
-  --  end
+    for i=1,#gems do
+      local sprite_offset = gems[i].gem_type
+      local frame_time = 0.5
+      -- set stage
+      local stage = flr(t() / frame_time % 5)
+      gems[i].frame = stage + sprite_offset
+      if(hit_obj(gems[i].x, gems[i].y)) then
+        gems[i].x = -1
+        gems[i].y = -1
+        gemScore += 1
+      end
+    end
   end
 -->8
 --code for spikes
@@ -195,7 +231,7 @@ __lua__
       local stage = flr(t() / frame_time % 3)*2
       spikes[i].frame = stage + sprite_offset
       if (stage == 4) then
-        test = test or hit_trap(spikes[i].x, spikes[i].y)
+        test = test or hit_obj(spikes[i].x, spikes[i].y)
       end
     end
   end
