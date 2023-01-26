@@ -326,8 +326,8 @@ __lua__
       spr_no = 21
     end
     local seed = {
-      x=x,
-      y=y,
+      x=x*8,
+      y=y*8,
       frame=0,
       gem_type = spr_no
     }
