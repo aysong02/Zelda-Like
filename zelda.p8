@@ -35,169 +35,11 @@ __lua__
     spikes = {}
     trap_hit = false
     spike_count = 0
-      plant_spikes(64,4)
-      plant_spikes(70,4)
-      plant_spikes(60,6)
-      plant_spikes(64,6)
-      plant_spikes(66,6)
-      plant_spikes(68,6)
-      plant_spikes(70,6)
-      plant_spikes(60,8)
-      plant_spikes(64,8)
-      plant_spikes(66,8)
-      plant_spikes(68,8)
-      plant_spikes(70,8)
-      plant_spikes(58,10)
-      plant_spikes(60,10)
-      plant_spikes(64,10)
-      plant_spikes(66,10)
-      plant_spikes(74,16)
-      plant_spikes(76,14)
-      plant_spikes(78,14)
-      plant_spikes(80,16)
-      plant_spikes(82,14)
-      plant_spikes(108,22)
-      plant_spikes(108,24)
-      plant_spikes(108,26)
-      plant_spikes(74,24)
-      plant_spikes(76,24)
-      plant_spikes(78,24)
-      plant_spikes(80,24)
-      plant_spikes(82,24)
-      plant_spikes(76,26)
-      plant_spikes(82,26)
-      plant_spikes(84,26)
-      plant_spikes(86,26)
-      plant_spikes(88,26)
-      plant_spikes(90,26)
-      plant_spikes(76,28)
-      plant_spikes(82,28)
-      plant_spikes(84,28)
-      plant_spikes(86,28)
-      plant_spikes(88,28)
-      plant_spikes(90,28)
-      plant_spikes(76,30)
-      plant_spikes(78,30)
-      plant_spikes(80,30)
-      plant_spikes(82,30)
-      plant_spikes(84,30)
-      plant_spikes(54,26)
-      plant_spikes(54,28)
-      plant_spikes(18,16)
-      plant_spikes(24,16)
-      plant_spikes(28,16)
-      plant_spikes(10,22)
-      plant_spikes(10,24)
-      plant_spikes(10,26)
-      plant_spikes(10,28)
-      plant_spikes(12,22)
-      plant_spikes(12,24)
-      plant_spikes(12,26)
-      plant_spikes(12,28)
-      plant_spikes(12,30)
-      plant_spikes(12,32)
-      plant_spikes(12,34)
-      plant_spikes(14,22)
-      plant_spikes(14,34)
-      plant_spikes(14,36)
-      plant_spikes(20,38)
-      plant_spikes(22,38)
-      plant_spikes(24,38)
-      plant_spikes(26,38)
-      plant_spikes(96,32)
-      plant_spikes(98,32)
-      plant_spikes(100,34)
-      plant_spikes(102,34)
-      plant_spikes(104,34)
-      plant_spikes(106,34)
-      plant_spikes(96,36)
-      plant_spikes(98,36)
-      plant_spikes(106,36)
-      plant_spikes(100,38)
-      plant_spikes(102,38)
-      plant_spikes(104,38)
-      plant_spikes(106,38)
-      plant_spikes(118,36)
-      plant_spikes(116,36)
+    plant_all_spikes()
     gems = {}
     gemCount = 0
     gemScore = 0
-        plant_gem(12,36,0)
-        plant_gem(13,36,0)
-        plant_gem(12,37,0)
-        plant_gem(12,37,0)
-
-        plant_gem(5,28,0)
-        plant_gem(6,28,0)
-        plant_gem(5,27,0)
-        plant_gem(6,27,0)
-        plant_gem(5,26,0)
-        plant_gem(6,26,0)
-        plant_gem(5,24,0)
-        plant_gem(6,24,0)
-
-        plant_gem(24,3,0)
-        plant_gem(24,4,0)
-        plant_gem(25,3,0)
-        plant_gem(25,4,0)
-        plant_gem(25,10,0)
-        plant_gem(25,11,0)
-        plant_gem(26,10,0)
-        plant_gem(26,11,0)
-        plant_gem(26,17,0)
-        plant_gem(27,16,0)
-
-        plant_gem(30,7,0)
-        plant_gem(30,8,0)
-        plant_gem(30,9,0)
-        plant_gem(31,7,0)
-        plant_gem(31,8,0)
-        plant_gem(31,9,0)
-
-        plant_gem(56,9,0)
-        plant_gem(57,9,0)
-
-        plant_gem(66,5,0)
-        plant_gem(67,4,0)
-        plant_gem(68,4,0)
-
-
-        plant_gem(79,27,0)
-        plant_gem(80,27,0)
-        plant_gem(79,28,0)
-        plant_gem(80,28,0)
-
-        plant_gem(87,31,0)
-        plant_gem(90,31,0)
-        plant_gem(88,30,0)
-        plant_gem(89,30,0)
-
-        plant_gem(96,35,0)
-        plant_gem(98,34,0)
-
-        plant_gem(100,37,0)
-        plant_gem(103,36,0)
-        plant_gem(104,37,0)
-
-        plant_gem(117,31,0)
-        plant_gem(117,32,0)
-        plant_gem(118,33,0)
-        plant_gem(119,32,0)
-        plant_gem(119,35,0)
-        plant_gem(120,30,0)
-        plant_gem(120,34,0)
-        plant_gem(121,33,0)
-        plant_gem(122,31,0)
-        plant_gem(122,35,0)
-        plant_gem(123,34,0)
-
-        plant_gem(114,23,0)
-        plant_gem(115,24,0)
-        plant_gem(115,26,0)
-        plant_gem(118,23,0)
-        plant_gem(119,23,0)
-        plant_gem(119,26,0)
-        plant_gem(116,24,0)
+    plant_all_gems()
 
     -- variables for movement
     speed = 55 -- pixels/sec
@@ -317,13 +159,24 @@ __lua__
       end
     end
   end
+  
+  function plant_all_gems()
+    for i=1, #gem_locations do
+      local x = rnd(1)
+      if (x > 0.5) then
+        plant_gem(gem_locations[i][1], gem_locations[i][2], 1)
+      else
+        plant_gem(gem_locations[i][1], gem_locations[i][2], 0)
+      end
+    end
+  end
 
   function plant_gem(x,y, gem_type)
     local spr_no = 16
     if (gem_type == 0) then
       spr_no = 16
     elseif (gem_type == 1) then
-      spr_no = 21
+      spr_no = 0
     end
     local seed = {
       x=x*8,
@@ -375,6 +228,11 @@ __lua__
     spikes[spike_count] = seed
   end
 
+  function plant_all_spikes()
+    for i=1, #spike_locations do
+      plant_spikes(spike_locations[i][1], spike_locations[i][2])
+    end
+  end
 
   function update_spikes()
     trap_hit = false
@@ -395,6 +253,160 @@ __lua__
 
 -->8
 -- sprite locations
+
+spike_locations = {
+  {64,4},
+  {70,4},
+  {60,6},
+  {64,6},
+  {66,6},
+  {68,6},
+  {70,6},
+  {60,8},
+  {64,8},
+  {66,8},
+  {68,8},
+  {70,8},
+  {58,10},
+  {60,10},
+  {64,10},
+  {66,10},
+  {74,16},
+  {76,14},
+  {78,14},
+  {80,16},
+  {82,14},
+  {108,22},
+  {108,24},
+  {108,26},
+  {74,24},
+  {76,24},
+  {78,24},
+  {80,24},
+  {82,24},
+  {76,26},
+  {82,26},
+  {84,26},
+  {86,26},
+  {88,26},
+  {90,26},
+  {76,28},
+  {82,28},
+  {84,28},
+  {86,28},
+  {88,28},
+  {90,28},
+  {76,30},
+  {78,30},
+  {80,30},
+  {82,30},
+  {84,30},
+  {54,26},
+  {54,28},
+  {18,16},
+  {24,16},
+  {28,16},
+  {10,22},
+  {10,24},
+  {10,26},
+  {10,28},
+  {12,22},
+  {12,24},
+  {12,26},
+  {12,28},
+  {12,30},
+  {12,32},
+  {12,34},
+  {14,22},
+  {14,34},
+  {14,36},
+  {20,38},
+  {22,38},
+  {24,38},
+  {26,38},
+  {96,32},
+  {98,32},
+  {100,34},
+  {102,34},
+  {104,34},
+  {106,34},
+  {96,36},
+  {98,36},
+  {106,36},
+  {100,38},
+  {102,38},
+  {104,38},
+  {106,38},
+  {118,36},
+  {116,36}
+}
+
+gem_locations = {
+  {12,36},
+  {13,36},
+  {12,37},
+  {12,37},
+  {5,28},
+  {6,28},
+  {5,27},
+  {6,27},
+  {5,26},
+  {6,26},
+  {5,24},
+  {6,24},
+  {24,3},
+  {24,4},
+  {25,3},
+  {25,4},
+  {25,10},
+  {25,11},
+  {26,10},
+  {26,11},
+  {26,17},
+  {27,16},
+  {30,7},
+  {30,8},
+  {30,9},
+  {31,7},
+  {31,8},
+  {31,9},
+  {56,9},
+  {57,9},
+  {66,5},
+  {67,4},
+  {68,4},
+  {79,27},
+  {80,27},
+  {79,28},
+  {80,28},
+  {87,31},
+  {90,31},
+  {88,30},
+  {89,30},
+  {96,35},
+  {98,34},
+  {100,37},
+  {103,36},
+  {104,37},
+  {117,31},
+  {117,32},
+  {118,33},
+  {119,32},
+  {119,35},
+  {120,30},
+  {120,34},
+  {121,33},
+  {122,31},
+  {122,35},
+  {123,34},
+  {114,23},
+  {115,24},
+  {115,26},
+  {118,23},
+  {119,23},
+  {119,26},
+  {116,24}
+}
 __gfx__
 00000000000000000000000000000000000000009999999999999999999999444499999944444444444444445444444444444445000000000999999999999990
 00000000000000000000000000000000000000009999999994444999999994499999999944499994999994444449999999999444000000009944444444444499
