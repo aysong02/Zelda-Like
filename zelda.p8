@@ -1,49 +1,209 @@
 pico-8 cartridge // http://www.pico-8.com
 version 39
 __lua__
--->8
 -- special functions
   -- code modified from class rain.p8
   function _init() 
+    starting_position = {
+      x = 120 * 8,
+      y = 32 * 8,
+    }
     player = {
       --player coordinates
-      x = 10,
-      y = 10,
+      x = starting_position.x,
+      y = starting_position.y,
       --offset for sprite from top left
       ox=0, 
       oy=0,
       --sprite dimensions
       w = 15,
       h = 15,
-      orientation = 192
+      orientation = 192,
     -- orientation is 0,2,4,6 for
     -- left, right, up, down
+      alive = true,
     }
 
     mapp = {
-      x = 0,
-      y = 0,
+      x = starting_position.x-64,
+      y = starting_position.y-64,
       width = 128,
       hight = 128
     }
 
     -- initailize spikes and gems
     spikes = {}
+    trap_hit = false
     spike_count = 0
-    plant_spikes(70,70)
-    plant_spikes(90,90)
+      plant_spikes(64,4)
+      plant_spikes(70,4)
+      plant_spikes(60,6)
+      plant_spikes(64,6)
+      plant_spikes(66,6)
+      plant_spikes(68,6)
+      plant_spikes(70,6)
+      plant_spikes(60,8)
+      plant_spikes(64,8)
+      plant_spikes(66,8)
+      plant_spikes(68,8)
+      plant_spikes(70,8)
+      plant_spikes(58,10)
+      plant_spikes(60,10)
+      plant_spikes(64,10)
+      plant_spikes(66,10)
+      plant_spikes(74,16)
+      plant_spikes(76,14)
+      plant_spikes(78,14)
+      plant_spikes(80,16)
+      plant_spikes(82,14)
+      plant_spikes(108,22)
+      plant_spikes(108,24)
+      plant_spikes(108,26)
+      plant_spikes(74,24)
+      plant_spikes(76,24)
+      plant_spikes(78,24)
+      plant_spikes(80,24)
+      plant_spikes(82,24)
+      plant_spikes(76,26)
+      plant_spikes(82,26)
+      plant_spikes(84,26)
+      plant_spikes(86,26)
+      plant_spikes(88,26)
+      plant_spikes(90,26)
+      plant_spikes(76,28)
+      plant_spikes(82,28)
+      plant_spikes(84,28)
+      plant_spikes(86,28)
+      plant_spikes(88,28)
+      plant_spikes(90,28)
+      plant_spikes(76,30)
+      plant_spikes(78,30)
+      plant_spikes(80,30)
+      plant_spikes(82,30)
+      plant_spikes(84,30)
+      plant_spikes(54,26)
+      plant_spikes(54,28)
+      plant_spikes(18,16)
+      plant_spikes(24,16)
+      plant_spikes(28,16)
+      plant_spikes(10,22)
+      plant_spikes(10,24)
+      plant_spikes(10,26)
+      plant_spikes(10,28)
+      plant_spikes(12,22)
+      plant_spikes(12,24)
+      plant_spikes(12,26)
+      plant_spikes(12,28)
+      plant_spikes(12,30)
+      plant_spikes(12,32)
+      plant_spikes(12,34)
+      plant_spikes(14,22)
+      plant_spikes(14,34)
+      plant_spikes(14,36)
+      plant_spikes(20,38)
+      plant_spikes(22,38)
+      plant_spikes(24,38)
+      plant_spikes(26,38)
+      plant_spikes(96,32)
+      plant_spikes(98,32)
+      plant_spikes(100,34)
+      plant_spikes(102,34)
+      plant_spikes(104,34)
+      plant_spikes(106,34)
+      plant_spikes(96,36)
+      plant_spikes(98,36)
+      plant_spikes(106,36)
+      plant_spikes(100,38)
+      plant_spikes(102,38)
+      plant_spikes(104,38)
+      plant_spikes(106,38)
+      plant_spikes(118,36)
+      plant_spikes(116,36)
     gems = {}
     gemCount = 0
     gemScore = 0
-    plant_gem(30,30, 0)
-    plant_gem(50,50, 1)
+        plant_gem(12,36,0)
+        plant_gem(13,36,0)
+        plant_gem(12,37,0)
+        plant_gem(12,37,0)
+
+        plant_gem(5,28,0)
+        plant_gem(6,28,0)
+        plant_gem(5,27,0)
+        plant_gem(6,27,0)
+        plant_gem(5,26,0)
+        plant_gem(6,26,0)
+        plant_gem(5,24,0)
+        plant_gem(6,24,0)
+
+        plant_gem(24,3,0)
+        plant_gem(24,4,0)
+        plant_gem(25,3,0)
+        plant_gem(25,4,0)
+        plant_gem(25,10,0)
+        plant_gem(25,11,0)
+        plant_gem(26,10,0)
+        plant_gem(26,11,0)
+        plant_gem(26,17,0)
+        plant_gem(27,16,0)
+
+        plant_gem(30,7,0)
+        plant_gem(30,8,0)
+        plant_gem(30,9,0)
+        plant_gem(31,7,0)
+        plant_gem(31,8,0)
+        plant_gem(31,9,0)
+
+        plant_gem(56,9,0)
+        plant_gem(57,9,0)
+
+        plant_gem(66,5,0)
+        plant_gem(67,4,0)
+        plant_gem(68,4,0)
+
+
+        plant_gem(79,27,0)
+        plant_gem(80,27,0)
+        plant_gem(79,28,0)
+        plant_gem(80,28,0)
+
+        plant_gem(87,31,0)
+        plant_gem(90,31,0)
+        plant_gem(88,30,0)
+        plant_gem(89,30,0)
+
+        plant_gem(96,35,0)
+        plant_gem(98,34,0)
+
+        plant_gem(100,37,0)
+        plant_gem(103,36,0)
+        plant_gem(104,37,0)
+
+        plant_gem(117,31,0)
+        plant_gem(117,32,0)
+        plant_gem(118,33,0)
+        plant_gem(119,32,0)
+        plant_gem(119,35,0)
+        plant_gem(120,30,0)
+        plant_gem(120,34,0)
+        plant_gem(121,33,0)
+        plant_gem(122,31,0)
+        plant_gem(122,35,0)
+        plant_gem(123,34,0)
+
+        plant_gem(114,23,0)
+        plant_gem(115,24,0)
+        plant_gem(115,26,0)
+        plant_gem(118,23,0)
+        plant_gem(119,23,0)
+        plant_gem(119,26,0)
+        plant_gem(116,24,0)
 
     -- variables for movement
     speed = 55 -- pixels/sec
     dx, dy = 0, 0
     dt = 0
     lastframe = t()
-    test = "test"
   end
 
   function _draw()
@@ -52,16 +212,20 @@ __lua__
     map()
     draw_spikes()
     draw_gem()
-    spr(player.orientation, player.x, player.y, 2, 2)
-    print(test, mapp.x + 2, mapp.y + 120, 12)
+    if player.alive then
+      spr(player.orientation, player.x, player.y, 2, 2)
+    end
+    print(player.alive, mapp.x + 2, mapp.y + 120, 12)
     print("gems: "..gemScore, mapp.x + 50, mapp.y + 120, 11)
   end
 
   function _update60()
     dt = t() - lastframe
     lastframe = t()
-  
-    input() 
+
+    if player.alive then
+      input() 
+    end
     update_spikes()
     update_gems()
   end
@@ -125,9 +289,10 @@ __lua__
   
   function hit_obj(x,y)
   --x,y for trap and uses player object
+  -- TODO refactor code to be faster
     collide=false
-    for i=x,x+8 do
-      for j=y,y+8 do
+    for i=x,x+8,8 do
+      for j=y,y+8,8 do
         if i >= player.x and i <= player.x + player.w and
         j >= player.y and j <= player.y + player.h then
           collide = true
@@ -162,7 +327,7 @@ __lua__
     end
     local seed = {
       x=x,
-      y=x,
+      y=y,
       frame=0,
       gem_type = spr_no
     }
@@ -213,8 +378,8 @@ __lua__
 
   function plant_spikes(x,y)
     local seed = {
-      x=x,
-      y=x,
+      x=x*8,
+      y=y*8,
       frame=0
     }
     spike_count += 1
@@ -223,16 +388,19 @@ __lua__
 
 
   function update_spikes()
-    test = false
+    trap_hit = false
     for i=1,#spikes do
-      local sprite_offset = 42
+      local sprite_offset = 32
       local frame_time = 2
       -- set stage
       local stage = flr(t() / frame_time % 3)*2
       spikes[i].frame = stage + sprite_offset
       if (stage == 4) then
-        test = test or hit_obj(spikes[i].x, spikes[i].y)
+        trap_hit = trap_hit or hit_obj(spikes[i].x, spikes[i].y)
       end
+    end
+    if trap_hit then
+      player.alive = false
     end
   end
 
