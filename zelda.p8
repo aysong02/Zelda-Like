@@ -200,7 +200,10 @@ __lua__
         plant_gem(119,26,0)
         plant_gem(116,24,0)
 
-    -- variables for movement
+    
+    flames = {}
+    flame_count = 0
+    plant_flames(110,26)
     speed = 55 -- pixels/sec
     dx, dy = 0, 0
     dt = 0
@@ -213,6 +216,7 @@ __lua__
     map()
     draw_spikes()
     draw_gem()
+    draw_flames()
     if player.alive then
       spr(player.orientation, player.x, player.y, 2, 2)
     end
@@ -229,6 +233,7 @@ __lua__
     end
     update_spikes()
     update_gems()
+    update_flames()
   end
 
 
@@ -407,6 +412,51 @@ __lua__
     if trap_hit then
       if (player.alive == true) then 
         sfx(2)
+      end
+      player.alive = false
+    end
+  end
+-->8
+--code for flame traps
+  function draw_flames()
+    for i=1,#flames do
+      if(
+        flames[i].x >= mapp.x - 10
+        and flames[i].x <= (mapp.x + mapp.width + 10) 
+        and flames[i].y >= mapp.y - 10
+        and flames[i].y <= (mapp.y + mapp.hight + 10)
+        ) then
+       spr(flames[i].frame, flames[i].x, flames[i].y, 2, 2)
+      end
+    end
+  end
+
+  function plant_flames(x,y)
+    local seed = {
+      x=x*8,
+      y=y*8,
+      frame=0
+    }
+    flame_count += 1
+    flames[flame_count] = seed
+  end
+
+
+  function update_flames()
+    trap_hit = false
+    for i=1,#flames do
+      local sprite_offset = 38
+      local frame_time = 2
+      -- set stage
+      local stage = flr(t() / frame_time % 4) * 2
+      flames[i].frame = stage + sprite_offset
+      if (stage == 4 or stage == 3) then
+        trap_hit = trap_hit or hit_obj(flames[i].x, flames[i].y)
+      end
+    end
+    if trap_hit then
+      if (player.alive == true) then 
+        sfx(1)
       end
       player.alive = false
     end
