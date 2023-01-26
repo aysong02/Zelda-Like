@@ -314,7 +314,7 @@ __lua__
           and gems[i].y >= mapp.y - 10
           and gems[i].y <= (mapp.y + mapp.hight + 10)
           ) then
-        spr(gems[i].gem_type, gems[i].x, gems[i].y)
+        spr(gems[i].frame, gems[i].x, gems[i].y)
       end
     end
   end
@@ -351,9 +351,12 @@ __lua__
   -- TODO
     for i=1,#gems do
       local sprite_offset = gems[i].gem_type
-      local frame_time = 0.5
+      local frame_time = 0.1
       -- set stage
-      local stage = flr(t() / frame_time % 5)
+      local stage = flr(t() / frame_time % 12)
+      if stage > 4 then
+        stage = 4
+      end
       gems[i].frame = stage + sprite_offset
       if(hit_obj(gems[i].x, gems[i].y)) then
         sfx(0)
