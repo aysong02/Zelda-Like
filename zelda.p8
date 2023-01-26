@@ -60,10 +60,10 @@ __lua__
     draw_gem()
     draw_flames()
     if player.alive then
-      spr(player.orientation, player.x, player.y, 2, 2)
+      spr(player.orientation + flr((t() % 4))*2, player.x, player.y, 2, 2)
     end
     print(player.alive, mapp.x + 2, mapp.y + 120, 12)
-    print("gems: "..gemScore, mapp.x + 50, mapp.y + 120, 11)
+   print("gems: "..gemScore, mapp.x + 50, mapp.y + 120, 11)
   end
 
   function _update60()
