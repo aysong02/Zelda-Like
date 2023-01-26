@@ -5,8 +5,8 @@ __lua__
   -- code modified from class rain.p8
   function _init() 
     starting_position = {
-      x = 120 * 8,
-      y = 32 * 8,
+      x = 49 * 8,
+      y = 39 * 8,
     }
     player = {
       --player coordinates
@@ -335,17 +335,6 @@ __lua__
     gems[gemCount] = seed
   end
 
-  -- function collect_gem(x,y)
-  --   test = false
-  --   for i=1,#gems do
-  --     if(gems[i].x == x and gems[i].y == y) then
-  --       gems[i].x = -1
-  --       gems[i].y = -1
-  --       gemScore += 1
-  --     end
-  --   end
-  -- end
-
   function update_gems()
   -- TODO
     for i=1,#gems do
@@ -404,6 +393,8 @@ __lua__
     end
   end
 
+-->8
+-- sprite locations
 __gfx__
 00000000000000000000000000000000000000009999999999999999999999444499999944444444444444445444444444444445000000000999999999999990
 00000000000000000000000000000000000000009999999994444999999994499999999944499994999994444449999999999444000000009944444444444499
