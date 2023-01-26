@@ -62,7 +62,7 @@ __lua__
     if player.alive then
       spr(player.orientation + flr((t()*1.5) % 4)*2, player.x, player.y, 2, 2)
     end
-    print(player.alive, mapp.x + 2, mapp.y + 120, 12)
+    -- print(player.alive, mapp.x + 2, mapp.y + 120, 12)
    print("gems: "..gemScore, mapp.x + 50, mapp.y + 120, 11)
   end
 
