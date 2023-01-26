@@ -46,7 +46,7 @@ __lua__
     flames = {}
     flame_count = 0
     plant_flames(110,26)
-    speed = 55 -- pixels/sec
+    speed = 80 -- pixels/sec
     dx, dy = 0, 0
     dt = 0
     lastframe = t()
@@ -60,7 +60,7 @@ __lua__
     draw_gem()
     draw_flames()
     if player.alive then
-      spr(player.orientation + flr((t() % 4))*2, player.x, player.y, 2, 2)
+      spr(player.orientation + flr((t()*1.5) % 4)*2, player.x, player.y, 2, 2)
     end
     print(player.alive, mapp.x + 2, mapp.y + 120, 12)
    print("gems: "..gemScore, mapp.x + 50, mapp.y + 120, 11)
@@ -650,3 +650,4 @@ __music__
 00 03070844
 00 03040806
 02 03050806
+
